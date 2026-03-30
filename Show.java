@@ -2,40 +2,40 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Show {
-    private String showId;
-    private String movieName;
-    private String theaterId;
+    private String id;
+    private String title;
+    private String venueId;
     private Map<String, Boolean> seatAvailability; 
     private List<Seat> seats;
 
-    public Show(String showId, String movieName, String theaterId, List<Seat> seats) {
-        this.showId = showId;
-        this.movieName = movieName;
-        this.theaterId = theaterId;
+    public Show(String id, String title, String venueId, List<Seat> seats) {
+        this.id = id;
+        this.title = title;
+        this.venueId = venueId;
         this.seats = seats;
         this.seatAvailability = new ConcurrentHashMap<>();
         for (Seat seat : seats) {
-            seatAvailability.put(seat.getSeatId(), true);
+            seatAvailability.put(seat.getCode(), true);
         }
     }
 
-    public synchronized boolean lockSeats(List<String> seatIds) {
-        for (String id : seatIds) {
-            if (!seatAvailability.getOrDefault(id, false)) return false;
+    public synchronized boolean reserveSeats(List<String> seatCodes) {
+        for (String code : seatCodes) {
+            if (!seatAvailability.getOrDefault(code, false)) return false;
         }
-        for (String id : seatIds) {
-            seatAvailability.put(id, false);
+        for (String code : seatCodes) {
+            seatAvailability.put(code, false);
         }
         return true;
     }
 
-    public synchronized void unlockSeats(List<String> seatIds) {
-        for (String id : seatIds) {
-            seatAvailability.put(id, true);
+    public synchronized void releaseSeats(List<String> seatCodes) {
+        for (String code : seatCodes) {
+            seatAvailability.put(code, true);
         }
     }
 
-    public List<Seat> getSeats() { return seats; }
-    public String getMovieName() { return movieName; }
+    public List<Seat> getAllSeats() { return seats; }
+    public String getTitle() { return title; }
     public Map<String, Boolean> getSeatAvailability() { return seatAvailability; }
 }

@@ -9,12 +9,12 @@ public class CinemaManagementService {
     }
 
     public List<String> listMoviesInCity(String city) {
-        return shows.stream().map(Show::getMovieName).distinct().collect(Collectors.toList());
+        return shows.stream().map(Show::getTitle).distinct().collect(Collectors.toList());
     }
 
     public List<Show> getShowsForMovie(String movieName) {
         return shows.stream()
-                .filter(s -> s.getMovieName().equalsIgnoreCase(movieName))
+                .filter(s -> s.getTitle().equalsIgnoreCase(movieName))
                 .collect(Collectors.toList());
     }
 }

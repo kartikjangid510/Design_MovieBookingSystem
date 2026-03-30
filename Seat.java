@@ -1,14 +1,14 @@
 public class Seat {
-    private String seatId;
+    private String code;
     private SeatType seatType;
-    private double price;
+    private double cost;
 
-    public Seat(String seatId, SeatType seatType, double price) {
-        this.seatId = seatId;
+    public Seat(String code, SeatType seatType, double cost) {
+        this.code = code;
         this.seatType = seatType;
-        this.price = price;
+        this.cost = cost;
     }
 
-    public String getSeatId() { return seatId; }
-    public double getPrice() { return price; }
+    public String getCode() { return code; }
+    public double getCost() { return cost; }
 }

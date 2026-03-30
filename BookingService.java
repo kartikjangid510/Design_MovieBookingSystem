@@ -1,23 +1,23 @@
 import java.util.*;
 
 public class BookingService {
-    public boolean bookTicket(Show show, List<String> seatIds, PaymentMethod paymentMethod) {
-        if (show.lockSeats(seatIds)) {
-            double totalAmount = calculateTotal(show, seatIds);
+    public boolean createReservation(Show show, List<String> seatCodes, PaymentMethod paymentMethod) {
+        if (show.reserveSeats(seatCodes)) {
+            double totalAmount = computeTotal(show, seatCodes);
             if (paymentMethod.processPayment(totalAmount)) {
                 return true;
             } else {
-                show.unlockSeats(seatIds);
+                show.releaseSeats(seatCodes);
                 return false;
             }
         }
         return false;
     }
 
-    private double calculateTotal(Show show, List<String> seatIds) {
-        return show.getSeats().stream()
-                .filter(s -> seatIds.contains(s.getSeatId()))
-                .mapToDouble(s -> s.getPrice())
+    private double computeTotal(Show show, List<String> seatCodes) {
+        return show.getAllSeats().stream()
+                .filter(s -> seatCodes.contains(s.getCode()))
+                .mapToDouble(s -> s.getCost())
                 .sum();
     }
 }
